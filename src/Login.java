@@ -9,39 +9,49 @@ public class Login
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
         frame.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints(); //NOTE TO SELF - gridlayout and boxlayout does not work with a sign up window, use gridbaglayout instead
+        GridBagConstraints gbc = new GridBagConstraints(); //NOTE TO SELF - gridlayout and boxlayout does not work with a login window, use gridbaglayout instead, FlowLayout it always stays at the top
+
+        gbc.insets = new Insets(10, 10, 10, 10); // Padding
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Make that the Login button fill horizontally
 
         // Username Label
         gbc.gridx = 0; // column 0
         gbc.gridy = 0; // row 0
-        gbc.insets = new Insets(10, 10, 5, 10); // padding
-        frame.add(new JLabel("Username:"), gbc);
+        JLabel usernameLabel = new JLabel("Username:");
+        frame.add(usernameLabel, gbc);
 
         // Username Field
         gbc.gridx = 1; // column 1
         gbc.gridy = 0; // row 0
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        frame.add(new JTextField(15), gbc);
+        JTextField usernameField = new JTextField(15);
+        frame.add(usernameField, gbc);
 
         // Password Label
         gbc.gridx = 0; // column 0
         gbc.gridy = 1; // row 1
-        frame.add(new JLabel("Password:"), gbc);
+        JLabel passwordLabel = new JLabel("Password:");
+        frame.add(passwordLabel, gbc);
 
         // Password Field
         gbc.gridx = 1; // column 1
         gbc.gridy = 1; // row 1
-        frame.add(new JPasswordField(15), gbc);
+        JPasswordField passwordField = new JPasswordField(15);
+        frame.add(passwordField, gbc);
 
-        // Sign In Button
+        // Login Button
         gbc.gridx = 0; // column 0
         gbc.gridy = 2; // row 2
         gbc.gridwidth = 2; // span 2 columns
-        gbc.insets = new Insets(10, 10, 10, 10);
-        JButton signInButton = new JButton("Sign In");
-        frame.add(signInButton, gbc);
+        JButton loginButton = new JButton("Login");
+        frame.add(loginButton, gbc);
 
-        // Set frame visible
+        // Register Button
+        gbc.gridx = 0; // column 0
+        gbc.gridy = 3; // row 3
+        gbc.gridwidth = 2; // span 2 columns
+        JButton registerButton = new JButton("Register");
+        frame.add(registerButton, gbc);
+
         frame.setVisible(true);
     }
 }
