@@ -2,6 +2,7 @@
   <library name="mssql-jdbc-12.8.1.jre11">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/mssql-jdbc-12.8.1.jre11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jcalendar-1.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
