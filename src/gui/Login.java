@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 
 public class Login
 {
@@ -13,7 +14,6 @@ public class Login
         frame.setSize(1000, 1000);
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints(); //NOTE TO SELF - gridlayout and boxlayout does not work with a login window, use gridbaglayout instead, FlowLayout it always stays at the top
-
 
         // Get and resize the logo
         ImageIcon image = new ImageIcon(getClass().getClassLoader().getResource("resources/Logo.jpg"));
@@ -68,8 +68,80 @@ public class Login
         gbc.gridx = 0;
         gbc.gridy = 4;
         JButton registerButton = new JButton("Register");
+        registerButton.addActionListener(e ->
+        {
+            new SignUp();
+            frame.dispose();
+        });
         frame.add(registerButton, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        JLabel status = new JLabel("");
+        frame.add(status, gbc);
+
+        loginButton.addActionListener(e ->
+        {
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+
+            LoginResult result = login(username, password);
+            String access = result.getAccess();
+            int memberID = result.getMemberID();
+
+            if (access.equals("Leader"))
+            {
+                status.setForeground(Color.GREEN);
+                status.setText("Login successful as " + username + " registered as a Leader");
+                new AdminUI();
+                frame.dispose();
+            }
+            else if (access.equals("Member"))
+            {
+                status.setForeground(Color.GREEN);
+                status.setText("Login successful as " + username + " registered as a Member");
+                new UI(memberID);
+                frame.dispose();
+            }
+            else
+            {
+                status.setForeground(Color.RED);
+                status.setText(access);
+            }
+        });
+
         frame.setVisible(true);
+    }
+
+    public LoginResult login(String username, String password)
+    {
+        String db_url = "jdbc:sqlserver://196.216.43.75:1433;databaseName=ChurchMinistryDB;encrypt=true;trustServerCertificate=true;";
+        String db_user = "Eben";
+        String db_password = "EbenP@ss0";
+        String query = "EXECUTE sp_Login @Username = ?, @Password = ?";
+        String access = "";
+        int memberID = 0;
+
+        try
+        {
+            Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
+            PreparedStatement stmt = connection.prepareStatement(query);
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next())
+            {
+                access = rs.getString("Role");
+                memberID = rs.getInt("MemberID");
+            }
+        }
+        catch (SQLException error)
+        {
+            error.printStackTrace();
+            return new LoginResult(error.getMessage(), 0);
+        }
+        return new LoginResult(access, memberID);
     }
 }

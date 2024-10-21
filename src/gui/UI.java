@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class UI
 {
-    public UI()
+    public UI(int memberID)
     {
         JFrame ui = new JFrame("Family 360 - Control Panel");
         ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,10 +22,9 @@ public class UI
         JButton settingsButton = new JButton("Notifications");
         buttonPanel.add(settingsButton);
 
-        JButton cartButton = new JButton("Ministries");
-        buttonPanel.add(cartButton);
-
-
+        JButton ministriesButton = new JButton("Ministries");
+        ministriesButton.addActionListener(e -> new Ministries(memberID));
+        buttonPanel.add(ministriesButton);
 
         ui.setVisible(true);
     }

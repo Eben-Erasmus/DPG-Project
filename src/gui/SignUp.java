@@ -152,6 +152,11 @@ public class SignUp
         gbc.gridx = 0;
         gbc.gridy = 11;
         JButton backButton = new JButton("Back");
+        backButton.addActionListener(e ->
+        {
+            new Login();
+            frame.dispose();
+        });
         frame.add(backButton, gbc);
 
         gbc.gridx = 0;
@@ -174,8 +179,11 @@ public class SignUp
             String error = addUser(firstName, lastName, dateOfBirth, gender, email, phone, username, password, confirmPassword);
             if (error.equals(""))
             {
+                addUser(firstName, lastName, dateOfBirth, gender, email, phone, username, password, confirmPassword);
                 status.setForeground(Color.GREEN);
                 status.setText("User added successfully");
+                new Login();
+                frame.dispose();
             }
             else
             {
@@ -207,7 +215,7 @@ public class SignUp
             stmt.setString(7, username);
             stmt.setString(8, password);
             stmt.setString(9, confirmPassword);
-            stmt.executeUpdate();
+            stmt.execute();
         }
         catch (SQLException error)
         {
